@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "563905291217",
+    "project_id": "ucdin-caller",
+    "storage_bucket": "ucdin-caller.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:563905291217:android:2a1dcc55a67d91a279b6f0",
+        "android_client_info": {
+          "package_name": "com.udcin.caller"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZZGN-9FhrH4EwJ1syyIS4uoBJc63Hi80"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:563905291217:android:6d13481ec0d8c5c579b6f0",
+        "android_client_info": {
+          "package_name": "sys.udcin.caller"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZZGN-9FhrH4EwJ1syyIS4uoBJc63Hi80"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
