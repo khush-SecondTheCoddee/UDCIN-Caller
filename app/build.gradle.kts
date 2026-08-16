@@ -14,7 +14,7 @@ android {
   compileSdk { version = release(36) { minorApiLevel = 1 } }
 
   defaultConfig {
-    applicationId = "com.example.voipapp"
+    applicationId = "com.udcin.caller"
     minSdk = 26
     targetSdk = 36
     versionCode = 1
@@ -46,6 +46,14 @@ android {
   }
 }
 
+secrets {
+  propertiesFileName = ".env"
+  defaultPropertiesFileName = ".env.example"
+  ignoreList.add("FIREBASE_APPCHECK_DEBUG_TOKEN")
+}
+
+googleServices { missingGoogleServicesStrategy = MissingGoogleServicesStrategy.WARN }
+
 dependencies {
   implementation(platform(libs.androidx.compose.bom))
   implementation(platform(libs.firebase.bom))
@@ -54,13 +62,18 @@ dependencies {
   implementation(libs.androidx.compose.material.icons.extended)
   implementation(libs.androidx.compose.material3)
   implementation(libs.androidx.compose.ui)
+  implementation(libs.androidx.compose.ui.tooling.preview)
   implementation(libs.androidx.core.ktx)
   implementation(libs.androidx.lifecycle.runtime.compose)
   implementation(libs.androidx.lifecycle.runtime.ktx)
+  implementation(libs.androidx.lifecycle.viewmodel.compose)
+  implementation("androidx.navigation:navigation-compose:2.7.7")
   implementation(libs.kotlinx.coroutines.android)
   
   implementation(libs.firebase.firestore)
+  implementation("com.google.firebase:firebase-storage")
   implementation(libs.firebase.auth)
+  implementation("com.google.firebase:firebase-messaging")
   implementation(libs.androidx.credentials)
   implementation(libs.androidx.credentials.play.services)
   implementation(libs.googleid)
@@ -72,6 +85,15 @@ dependencies {
   
   implementation("io.getstream:stream-webrtc-android:1.1.2")
   implementation("com.google.mlkit:face-detection:16.1.6")
-  implementation("org.tensorflow:tensorflow-lite:2.14.0")
-  implementation("org.tensorflow:tensorflow-lite-support:0.4.4")
+  
+  implementation("com.google.android.gms:play-services-tflite-java:16.1.0")
+  implementation("com.google.android.gms:play-services-tflite-support:16.1.0")
+  
+  implementation(libs.androidx.room.ktx)
+  implementation(libs.androidx.room.runtime)
+  "ksp"(libs.androidx.room.compiler)
+  
+  implementation(libs.coil.compose)
+  implementation("com.squareup.okhttp3:okhttp:4.12.0")
+  implementation("com.google.code.gson:gson:2.10.1")
 }

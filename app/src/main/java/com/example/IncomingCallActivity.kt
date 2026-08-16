@@ -12,6 +12,9 @@ import androidx.compose.material3.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class IncomingCallActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,6 +33,13 @@ class IncomingCallActivity : ComponentActivity() {
         }
 
         val callerUdcin = intent.getStringExtra("callerUdcin") ?: "Unknown"
+        val callId = intent.getStringExtra("callId") ?: ""
+        
+        // Log incoming call to database
+        val dao = AppDatabase.getDatabase(this).callHistoryDao()
+        CoroutineScope(Dispatchers.IO).launch {
+            dao.insertCall(CallHistory(remoteUdcin = callerUdcin, timestamp = System.currentTimeMillis(), type = "INCOMING"))
+        }
 
         setContent {
             MaterialTheme {
@@ -47,11 +57,14 @@ class IncomingCallActivity : ComponentActivity() {
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceEvenly
                         ) {
-                            Button(onClick = { finish() }, colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)) {
+                            Button(onClick = { 
+                                val app = applicationContext as VoipApp
+                                app.webRtcManager.endCall()
+                                finish() 
+                            }, colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)) {
                                 Text("Reject")
                             }
                             Button(onClick = { 
-                                // Accept WebRTC call
                                 finish()
                             }, colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)) {
                                 Text("Accept")

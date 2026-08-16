@@ -3,22 +3,15 @@ package com.example
 import android.content.Context
 import android.graphics.Bitmap
 import kotlin.math.sqrt
-// import org.tensorflow.lite.Interpreter
 
 class FaceAuthManager(private val context: Context) {
-    // private var interpreter: Interpreter? = null
 
     init {
-        // interpreter = Interpreter(FileUtil.loadMappedFile(context, "mobile_facenet.tflite"))
+        // TFLite interpreter loading goes here
     }
 
     fun extractEmbedding(bitmap: Bitmap): FloatArray {
-        // Placeholder: Preprocess 112x112 bitmap and run TFLite inference
-        // val inputBuffer = convertBitmapToByteBuffer(bitmap)
-        // val outputBuffer = Array(1) { FloatArray(128) }
-        // interpreter?.run(inputBuffer, outputBuffer)
-        // return normalizeL2(outputBuffer[0])
-        
+        // Placeholder for TFLite MobileFaceNet inference
         val dummy = FloatArray(128) { 0.5f }
         return normalizeL2(dummy)
     }

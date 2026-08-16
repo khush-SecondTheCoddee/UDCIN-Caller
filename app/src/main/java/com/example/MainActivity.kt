@@ -3,37 +3,59 @@ package com.example
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.ui.theme.MyApplicationTheme
+import androidx.navigation.compose.*
 
 class MainActivity : ComponentActivity() {
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    enableEdgeToEdge()
-    setContent {
-      MyApplicationTheme {
-        Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-          Greeting(name = "Android", modifier = Modifier.padding(innerPadding))
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            MaterialTheme {
+                MainAppScreen()
+            }
         }
-      }
     }
-  }
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-  Text(text = "Hello $name!", modifier = modifier)
-}
+fun MainAppScreen() {
+    val navController = rememberNavController()
+    var selectedItem by remember { mutableStateOf(0) }
+    val items = listOf("Dialer", "Contacts", "History", "Voicemails", "Profile")
+    val icons = listOf(Icons.Filled.Phone, Icons.Filled.Contacts, Icons.Filled.History, Icons.Filled.Voicemail, Icons.Filled.Person)
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-  MyApplicationTheme { Greeting("Android") }
+    Scaffold(
+        bottomBar = {
+            NavigationBar {
+                items.forEachIndexed { index, item ->
+                    NavigationBarItem(
+                        icon = { Icon(icons[index], contentDescription = item) },
+                        label = { Text(item) },
+                        selected = selectedItem == index,
+                        onClick = {
+                            selectedItem = index
+                            navController.navigate(item) {
+                                popUpTo(navController.graph.startDestinationId) { saveState = true }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        }
+                    )
+                }
+            }
+        }
+    ) { innerPadding ->
+        NavHost(navController, startDestination = "Dialer", Modifier.padding(innerPadding)) {
+            composable("Dialer") { DialerScreen() }
+            composable("Contacts") { ContactsScreen() }
+            composable("History") { HistoryScreen() }
+            composable("Voicemails") { VoicemailsScreen() }
+            composable("Profile") { ProfileScreen() }
+        }
+    }
 }
