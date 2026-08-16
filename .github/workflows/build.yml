@@ -19,17 +19,20 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-          cache: gradle
+
+      # This step downloads and configures Gradle automatically
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: '8.7' 
 
       # Prevents the Secrets Gradle Plugin from crashing if no .env is checked in
       - name: Create empty .env file
         run: touch .env
 
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
-
+      # Notice we removed the 'chmod' step and changed './gradlew' to 'gradle'
       - name: Build Debug APK
-        run: ./gradlew assembleDebug
+        run: gradle assembleDebug
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
